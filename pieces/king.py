@@ -1,8 +1,17 @@
+import pygame
 from pieces.piece import Piece
 
 class King(Piece):
+    images = {
+        'white': 'images/wK.svg',
+        'black': 'images/bK.svg'
+    }
+
     def __init__(self, color, position):
         super().__init__(color, position)  # Initialize the Piece class with color and position
+        image_path = King.images[color]
+        self.image = pygame.image.load(image_path) # Load the image
+        self.image = pygame.transform.scale(self.image, (75, 75))  # Scale the image to fit the board square (optional)
         self.has_moved = False  # Track if the king has moved (important for castling)
 
     def get_valid_moves(self, board):

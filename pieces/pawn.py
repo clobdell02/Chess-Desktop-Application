@@ -1,9 +1,18 @@
+import pygame
 from pieces.piece import Piece
 from movement_utility import _is_square_empty
 
 class Pawn(Piece):
+    images = {
+        'white': pygame.image.load('images/wP.svg'),
+        'black': pygame.image.load('images/bP.svg')
+    }
+
     def __init__(self, color, position):
         super().__init__(color, position)  # Call the constructor of the Piece class
+        image_path = Pawn.images[color]
+        self.image = pygame.image.load(image_path) # Load the image
+        self.image = pygame.transform.scale(self.image, (75, 75))  # Scale the image to fit the board square (optional)
         self.has_moved = False  # To track if the pawn has moved for special rules like the first move
 
     def get_valid_moves(self, board):

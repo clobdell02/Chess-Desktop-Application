@@ -1,6 +1,7 @@
 import pygame
 import chess
-import Board_and_Pieces as BaP
+import visuals as viz
+from board import Board
 
 #initialize the pygame window
 pygame.init()
@@ -39,12 +40,13 @@ def gameLoop(screen):
     moving = False
 
     while running:
+        board = Board()
         # clear the screen and draw the board
         screen.fill((255, 255, 255))
-        BaP.draw_board(screen)
-        BaP.draw_move_history(screen, move_history)
+        viz.draw_board(screen)
+        viz.draw_move_history(screen, move_history)
         # draw the pieces on the board
-        BaP.draw_pieces(screen)
+        viz.draw_pieces(screen, board)
 
         # handle player input/moves
         if moving and current_piece:
@@ -58,27 +60,32 @@ def gameLoop(screen):
             # if the user closes the window
             if event.type == pygame.QUIT:
                 running = False
-            #
+            
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1: # is there a left click
                     mouse_pos = pygame.mouse.get_pos()
                     row, col = get_board_position(mouse_pos)
                     # check if mouse click is on a piece or empty square
-                    if (row, col) == (1, 4): # temp with a given piece
-                        current_piece = (row, col)
+                    piece = board.get_piece_at(row, col)
+                    if piece and piece.color == turn:
+                        current_piece = piece
+                        valid_moves = piece.get_valid_moves(board)
                         moving = True
-            #
+            
             elif event.type == pygame.MOUSEMOTION:
                 if moving and current_piece:
                     pass
-            #
+            
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     row, col = get_board_position(mouse_pos)
                     #
                     if moving and current_piece:
-                        make_move(current_piece, (row, col))
+                        if (row, col) in valid_moves:
+                            make_move(current_piece.position, (row, col))
+                            record_move(current_piece.position, (row, col))
+                            turn = 'black' if turn == 'white' else 'white'
                         current_piece = None
                         moving = False
 
