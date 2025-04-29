@@ -21,3 +21,22 @@ def generate_sliding_moves(piece, board, directions):
             nx += dx
             ny += dy
     return moves
+
+def generate_knight_moves(piece, board):
+    valid_moves = []
+    x, y = piece.position
+
+    for dx, dy in knight_moves:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < 8 and 0 <= ny < 8:
+            target = board.get_piece_at(nx, ny)
+            if target is None or target.color != piece.color:
+                valid_moves.append((nx, ny))
+
+    return valid_moves
+
+def _is_square_empty(self, row, col, board):
+        """Helper function to check if the given square is empty."""
+        if 0 <= row < 8 and 0 <= col < 8:
+            return board.get_piece_at(row, col) is None
+        return False

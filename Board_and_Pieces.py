@@ -2,6 +2,8 @@ import pygame
 import chess
 
 from pieces.queen import Queen
+from pieces.rook import Rook
+from pieces.bishop import Bishop
 
 # Define the board colors
 Light_Brown = (240, 225, 210)
@@ -118,5 +120,13 @@ def get_valid_moves_for_piece(piece_code, position):
     if piece_code == "wQ":
         return get_valid_moves(position, "white", board)
     elif piece_code == "bQ":
+        return get_valid_moves(position, "black", board)
+    elif piece_code == "wR":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bR":
+        return get_valid_moves(position, "black", board)
+    elif piece_code == "wB":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bB":
         return get_valid_moves(position, "black", board)
     # ...extend for other pieces
