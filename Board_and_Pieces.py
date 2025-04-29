@@ -1,6 +1,8 @@
 import pygame
 import chess
 
+from pieces.queen import Queen
+
 # Define the board colors
 Light_Brown = (240, 225, 210)
 Dark_Brown = (75, 63, 51)
@@ -111,3 +113,10 @@ def draw_pieces(screen):
         for position in positions:
             row, col = position
             screen.blit(image, ((col * square_pixel_size + label_pad + 15), (row * square_pixel_size + label_pad + 15)))
+
+def get_valid_moves_for_piece(piece_code, position):
+    if piece_code == "wQ":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bQ":
+        return get_valid_moves(position, "black", board)
+    # ...extend for other pieces
