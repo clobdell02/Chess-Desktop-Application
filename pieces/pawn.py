@@ -1,5 +1,5 @@
-from pieces import Piece
-from movement_utility import is_square_empty
+from pieces.piece import Piece
+from movement_utility import _is_square_empty
 
 class Pawn(Piece):
     def __init__(self, color, position):

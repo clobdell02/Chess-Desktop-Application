@@ -4,6 +4,9 @@ import chess
 from pieces.queen import Queen
 from pieces.rook import Rook
 from pieces.bishop import Bishop
+from pieces.knight import Knight
+from pieces.pawn import Pawn
+from pieces.king import King
 
 # Define the board colors
 Light_Brown = (240, 225, 210)
@@ -129,4 +132,17 @@ def get_valid_moves_for_piece(piece_code, position):
         return get_valid_moves(position, "white", board)
     elif piece_code == "bB":
         return get_valid_moves(position, "black", board)
-    # ...extend for other pieces
+    elif piece_code == "wN":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bN":
+        return get_valid_moves(position, "black", board)
+    elif piece_code == "wP":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bP":
+        return get_valid_moves(position, "black", board)
+    elif piece_code == "wK":
+        return get_valid_moves(position, "white", board)
+    elif piece_code == "bK":
+        return get_valid_moves(position, "black", board)
+    else:
+        raise ValueError("Invalid piece code")

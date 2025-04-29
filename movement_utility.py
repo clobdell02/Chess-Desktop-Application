@@ -1,4 +1,4 @@
-# movement_utils.py
+from pieces import piece
 
 def generate_sliding_moves(piece, board, directions):
     """
@@ -22,7 +22,8 @@ def generate_sliding_moves(piece, board, directions):
             ny += dy
     return moves
 
-def generate_knight_moves(piece, board):
+def generate_knight_moves(piece, board, directions):
+    """Helper function to generate knight moves."""   
     valid_moves = []
     x, y = piece.position
 

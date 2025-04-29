@@ -1,4 +1,4 @@
-from pieces import Piece
+from pieces.piece import Piece
 from movement_utility import generate_knight_moves
 
 class Knight(Piece):
@@ -9,5 +9,4 @@ class Knight(Piece):
         (1, -2),  (1, 2),
         (2, -1),  (2, 1)
         ]
-        
-        return generate_knight_moves(self, board)
+        return generate_knight_moves(self, board, directions)
