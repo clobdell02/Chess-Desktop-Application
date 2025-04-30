@@ -1,5 +1,5 @@
 import pygame
-from board import Board
+from src.board import Board
 
 # Define the board colors
 Light_Brown = (240, 225, 210)
@@ -44,7 +44,7 @@ def draw_move_history(screen, move_history):
     # redefine font without the bold
     font = pygame.font.SysFont("Times New Roman", 20)
     # write each move into the move history display
-    for i, move in enumerate(move_history):
+    for i, move in enumerate(move_history[-20:]):
         move_text = font.render(move, True, (0, 0, 0))
         screen.blit(move_text, (width - 250 + 20, label_pad + y_offset))
         y_offset += 30

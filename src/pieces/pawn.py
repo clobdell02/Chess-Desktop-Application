@@ -1,11 +1,11 @@
 import pygame
-from pieces.piece import Piece
-from movement_utility import _is_square_empty
+from src.pieces.piece import Piece
+from src.movement_utility import is_square_empty
 
 class Pawn(Piece):
     images = {
-        'white': pygame.image.load('images/wP.svg'),
-        'black': pygame.image.load('images/bP.svg')
+        'white': pygame.image.load('gui/images/wP.svg'),
+        'black': pygame.image.load('gui/images/bP.svg')
     }
 
     def __init__(self, color, position):
@@ -16,24 +16,27 @@ class Pawn(Piece):
     def get_valid_moves(self, board):
         valid_moves = []
         row, col = self.position
-        direction = 1 if self.color == 'white' else -1  # White moves up, black moves down
+        direction = -1 if self.color == 'white' else 1  # White moves up, black moves down
         # 1. Normal forward move (check if the square ahead is empty)
-        if self._is_square_empty(row + direction, col, board):
+        if is_square_empty(row + direction, col, board):
             valid_moves.append((row + direction, col))
             # 2. First move: Check if the pawn can move two squares forward
-            if not self.has_moved and self._is_square_empty(row + 2 * direction, col, board):
+            if not self.has_moved and is_square_empty(row + 2 * direction, col, board):
                 valid_moves.append((row + 2 * direction, col))
         # 3. Diagonal captures: Use helper function to check diagonals for opponent's pieces
-        valid_moves.extend(self._generate_pawn_capture_moves(board))
+        valid_moves.extend(self.generate_pawn_capture_moves(board))
         # 4. Promotion: If the pawn reaches the final rank, add promotion moves
-        valid_moves.extend(self._generate_promotion_moves())
+        valid_moves.extend(self.generate_promotion_moves())
         return valid_moves
 
-    def _generate_pawn_capture_moves(self, board):
+    def generate_pawn_capture_moves(self, board):
         """Generate possible diagonal capture moves for the pawn."""
         moves = []
         row, col = self.position
-        directions = [(-1, -1), (-1, 1)] if self.color == 'black' else [(1, -1), (1, 1)]
+        if self.color == 'black':
+            directions = [(1, -1), (1, 1)]
+        else:
+            directions = [(-1, -1), (-1, 1)]
         for dx, dy in directions:
             nx, ny = row + dx, col + dy
             if 0 <= nx < 8 and 0 <= ny < 8:
@@ -42,12 +45,12 @@ class Pawn(Piece):
                     moves.append((nx, ny))  # Can capture an opponent's piece
         return moves
     
-    def _generate_promotion_moves(self):
+    def generate_promotion_moves(self):
         """Generate possible promotion moves when the pawn reaches the promotion rank."""
         moves = []
         row, col = self.position
         # If the pawn reaches the promotion rank (rank 8 for white, rank 1 for black)
-        if (self.color == 'white' and row == 6) or (self.color == 'black' and row == 1):
+        if (self.color == 'white' and row == 1) or (self.color == 'black' and row == 6):
             # Promotion could lead to a choice of new piece: Queen, Rook, Bishop, or Knight
-            moves.append(('promote', (row + 1, col)))  # Placeholder for promotion logic
+            moves.append(('promotion', (row, col)))
         return moves

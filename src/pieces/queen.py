@@ -1,11 +1,11 @@
 import pygame
-from pieces.piece import Piece
-from movement_utility import generate_sliding_moves
+from src.pieces.piece import Piece
+from src.movement_utility import generate_sliding_moves
 
 class Queen(Piece):
     images = {
-        'white': pygame.image.load('images/wQ.svg'),
-        'black': pygame.image.load('images/bQ.svg')
+        'white': pygame.image.load('gui/images/wQ.svg'),
+        'black': pygame.image.load('gui/images/bQ.svg')
     }
 
     def __init__(self, color, position):

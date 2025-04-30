@@ -1,10 +1,10 @@
 import pygame
-from pieces.piece import Piece
+from src.pieces.piece import Piece
 
 class King(Piece):
     images = {
-        'white': pygame.image.load('images/wK.svg'),
-        'black': pygame.image.load('images/bK.svg')
+        'white': pygame.image.load('gui/images/wK.svg'),
+        'black': pygame.image.load('gui/images/bK.svg')
     }
 
     def __init__(self, color, position):
@@ -49,5 +49,7 @@ class King(Piece):
                 if opponent_piece and opponent_piece.color != self.color:
                     # Check if any piece can attack the king's position
                     if (opponent_piece.get_valid_moves(board) and (row, col) in opponent_piece.get_valid_moves(board)):
+                        print('The King is in check')
                         return True  # The king is in check
-        return False
+                    else:
+                        return False

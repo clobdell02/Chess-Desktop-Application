@@ -1,11 +1,11 @@
 import pygame
-from pieces.piece import Piece
-from movement_utility import generate_sliding_moves
+from src.pieces.piece import Piece
+from src.movement_utility import generate_sliding_moves
 
 class Bishop(Piece):
     images = {
-        'white': pygame.image.load('images/wB.svg'),
-        'black': pygame.image.load('images/bB.svg')
+        'white': pygame.image.load('gui/images/wB.svg'),
+        'black': pygame.image.load('gui/images/bB.svg')
     }
 
     def __init__(self, color, position):

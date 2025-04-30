@@ -1,9 +1,9 @@
-from pieces.bishop import Bishop
-from pieces.king import King
-from pieces.knight import Knight
-from pieces.pawn import Pawn
-from pieces.queen import Queen
-from pieces.rook import Rook
+from src.pieces.bishop import Bishop
+from src.pieces.king import King
+from src.pieces.knight import Knight
+from src.pieces.pawn import Pawn
+from src.pieces.queen import Queen
+from src.pieces.rook import Rook
 
 class Board:
     def __init__(self):
@@ -41,10 +41,13 @@ class Board:
 
     def move_piece(self, start, end):
         piece = self.get_piece_at(*start)
-        self.grid[end[0]][end[1]] = piece
-        self.grid[start[0]][start[1]] = None
-        if piece:
+        if piece: # ensures a piece exists
+            print(f"Moving {piece.color}, {piece.__class__} from {start} to {end}")
+            self.grid[end[0]][end[1]] = piece
+            self.grid[start[0]][start[1]] = None
             piece.position = end
+        else:
+            print(f"no piece found at {start}")
 
     def get_valid_moves(self, row, col):
         piece = self.get_piece_at(row, col)
