@@ -51,9 +51,18 @@ def draw_move_history(screen, move_history):
 
 # handling of the rendering of the pieces
 def draw_pieces(screen, board):
-    for row in range(8):  # Loop through rows
-        for col in range(8):  # Loop through columns
-            piece = board.get_piece_at(row, col)  # Get the piece at (row, col)
-            if piece:  # If there is a piece at this position
-                # Draw the piece at the calculated position
-                screen.blit(piece.image, (col * square_pixel_size + label_pad + 15, row * square_pixel_size + label_pad + 15))
+    for row in range(8):
+        for col in range(8):
+            # Compute square top-left corner
+            square_x = col * square_pixel_size + label_pad
+            square_y = row * square_pixel_size + label_pad
+            # get center of square
+            center_x = square_x + square_pixel_size // 2
+            center_y = square_y + square_pixel_size // 2
+            # pygame.draw.circle(screen, (255, 0, 0), (center_x, center_y), 4) # was an centering issue
+            # Draw the piece if there is one
+            piece = board.get_piece_at(row, col)
+            if piece:
+                image_rect = piece.image.get_rect()
+                image_rect.center = (center_x, center_y)
+                screen.blit(piece.image, image_rect.topleft)

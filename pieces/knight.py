@@ -10,9 +10,7 @@ class Knight(Piece):
 
     def __init__(self, color, position):
         super().__init__(color, position)
-        image_path = Knight.images[color]
-        self.image = pygame.image.load(image_path) # Load the image
-        self.image = pygame.transform.scale(self.image, (75, 75))  # Scale the image to fit the board square (optional)
+        self.set_image(Knight.images[color])
         
     def get_valid_moves(self, board):
         knight_moves = [
