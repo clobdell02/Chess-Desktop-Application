@@ -29,12 +29,20 @@ class King(Piece):
                 if target_piece is None or target_piece.color != self.color:
                     # Simulate the move
                     original_position = self.position
+                    og_target = target_piece
+                    board.remove_piece_at(row, col)
                     self.position = (nx, ny)
-                    # Check if this move places the king in check
-                    if not self.is_in_check(board):
-                        valid_moves.append((nx, ny))  # Add the move if it doesn't place the king in check
-                    # Revert the position back after checking
+                    board.place_piece(self, (nx, ny))
+                    # check if now in check
+                    in_check = self.is_in_check(board)
+                    # undo the move
+                    board.remove_piece_at(nx, ny)
                     self.position = original_position
+                    board.place_piece(self, (row, col))
+                    if og_target:
+                        board.place_piece(og_target, (nx, ny))
+                    if not in_check:
+                        valid_moves.append((nx, ny))
         return valid_moves
 
     def is_in_check(self, board):

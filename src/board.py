@@ -36,13 +36,33 @@ class Board:
         self.grid[7][4] = King('white', (7, 4))
         self.grid[0][4] = King('black', (0, 4))
     
+    def remove_piece_at(self, row, col):
+        self.grid[row][col] = None
+
+    def place_piece(self, piece, position):
+        row, col = position
+        self.grid[row][col] = piece
+
     def get_piece_at(self, row, col):
-        return self.grid[row][col]
+        # check for an out of board click
+        if not(0 <= row < 8 and 0 <= col < 8):
+            print(f"Error: Attempted to access an out-of-bounds position: ({row}, {col})")
+            return None
+        else:
+            return self.grid[row][col]
+
+    def get_king_position(self, color):
+        for row in range(8):
+            for col in range(8):
+                piece = self.grid[row][col]
+                if piece and isinstance(piece, King) and piece.color == color:
+                    return(row, col)
+        return None
 
     def move_piece(self, start, end):
         piece = self.get_piece_at(*start)
         if piece: # ensures a piece exists
-            print(f"Moving {piece.color}, {piece.__class__} from {start} to {end}")
+            print(f"Moving {piece.color} {piece.__class__.__name__}, from {start} to {end}")
             self.grid[end[0]][end[1]] = piece
             self.grid[start[0]][start[1]] = None
             piece.position = end
@@ -50,6 +70,7 @@ class Board:
             print(f"no piece found at {start}")
 
     def get_valid_moves(self, row, col):
+        print("calling get_valid_moves from board.py")
         piece = self.get_piece_at(row, col)
         if piece:
             return piece.get_valid_moves(self)

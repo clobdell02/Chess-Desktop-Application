@@ -26,7 +26,7 @@ class Pawn(Piece):
         # 3. Diagonal captures: Use helper function to check diagonals for opponent's pieces
         valid_moves.extend(self.generate_pawn_capture_moves(board))
         # 4. Promotion: If the pawn reaches the final rank, add promotion moves
-        valid_moves.extend(self.generate_promotion_moves())
+        valid_moves.extend(self.generate_promotion_moves(board))
         return valid_moves
 
     def generate_pawn_capture_moves(self, board):
@@ -45,12 +45,24 @@ class Pawn(Piece):
                     moves.append((nx, ny))  # Can capture an opponent's piece
         return moves
     
-    def generate_promotion_moves(self):
+    def generate_promotion_moves(self, board):
         """Generate possible promotion moves when the pawn reaches the promotion rank."""
         moves = []
         row, col = self.position
-        # If the pawn reaches the promotion rank (rank 8 for white, rank 1 for black)
-        if (self.color == 'white' and row == 1) or (self.color == 'black' and row == 6):
-            # Promotion could lead to a choice of new piece: Queen, Rook, Bishop, or Knight
-            moves.append(('promotion', (row, col)))
+        if self.color == 'white':
+            direction = -1
+        elif self.color == 'black':
+            direction = 1
+        target_row = row + direction
+        # is target in the range of the board
+        if not (0 <= target_row < 8):
+            return moves
+        # check standard forward moves
+        if is_square_empty(target_row, col, board):
+            if (self.color == 'white' and target_row == 0) or (self.color == 'black' and target_row == 7):
+                moves.append(('promotion', (target_row, col)))
+        # check diagnoal captures for promotion
+        for target in self.generate_pawn_capture_moves(board):
+            if (self.color == 'white' and target_row == 0) or (self.color == 'black' and target_row == 7):
+                moves.append(('promotion', target))
         return moves
